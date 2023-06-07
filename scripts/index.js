@@ -59,9 +59,7 @@ function setTime() {
   if (time < 90) return;
 
   let roingus = roingName();
-  timeElm.innerHTML = `you have observed ${roingus} for ${convertSeconds(
-    time
-  )}`;
+  timeElm.innerHTML = `you have observed ${roingus} for <br> ${convertSeconds(time)}`;
 }
 
 // Function to convert seconds to string
@@ -145,10 +143,14 @@ document.addEventListener("pointerup", () => {
 });
 
 // Increment time and set time interval
-setInterval(() => {
-  time++;
-  setTime();
-}, 1000);
+function tick() {
+  if (document.hasFocus()) {
+    time++;
+    setTime();
+  }
+}
+
+setInterval(tick, 1000);
 
 // Save roingusCount and time to localStorage when the page is unloaded and every 10 seconds
 function setStorage() {
