@@ -48,6 +48,9 @@ let clicked = false;
 
 // Set count function
 function setCount() {
+  if (roingusCount === 25) {
+    countElm.classList.add("animate-up");
+  }
   if (roingusCount < 25) return;
 
   let roingus = roingName();
@@ -56,7 +59,10 @@ function setCount() {
 
 // Set time function
 function setTime() {
-  if (time < 90) return;
+  if (time === 2) {
+    timeElm.classList.add("animate-down");
+  }
+  if (time < 2) return;
 
   let roingus = roingName();
   timeElm.innerHTML = `you have observed ${roingus} for <br> ${convertSeconds(
@@ -169,6 +175,7 @@ countElm.addEventListener("click", () => {
   setStorage();
   setCount();
   countElm.innerHTML = "&nbsp;";
+  countElm.classList.remove("animate-up");
 });
 
 timeElm.addEventListener("click", () => {
@@ -176,4 +183,5 @@ timeElm.addEventListener("click", () => {
   setStorage();
   setTime();
   timeElm.innerHTML = "&nbsp;";
+  timeElm.classList.remove("animate-down");
 });
