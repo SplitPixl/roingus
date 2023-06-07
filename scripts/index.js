@@ -59,7 +59,9 @@ function setTime() {
   if (time < 90) return;
 
   let roingus = roingName();
-  timeElm.innerHTML = `you have observed ${roingus} for <br> ${convertSeconds(time)}`;
+  timeElm.innerHTML = `you have observed ${roingus} for <br> ${convertSeconds(
+    time
+  )}`;
 }
 
 // Function to convert seconds to string
@@ -166,12 +168,12 @@ countElm.addEventListener("click", () => {
   roingusCount = 0;
   setStorage();
   setCount();
-  countElm.innerHTML = "";
+  countElm.innerHTML = "&nbsp;";
 });
 
 timeElm.addEventListener("click", () => {
   time = 0;
   setStorage();
   setTime();
-  timeElm.innerHTML = "";
+  timeElm.innerHTML = "&nbsp;";
 });
