@@ -1,0 +1,81 @@
+@font-face {
+    font-family: "Comic Sans MS";
+    src: url(/assets/fonts/ComicSansMS.ttf);
+}
+
+:root {
+    --background-color: #FFFFFF;
+    --text-color: #000000;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background-color: #111222;
+        --text-color: #FFFFFF;
+    }
+}
+
+* {
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    font-family: "Comic Sans MS";
+    background: var(--background-color);
+    color: var(--text-color);
+    font-size: 18px;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#roingus {
+    box-sizing: border-box;
+    scale: 1.5;
+    transform-origin: center center;
+    transition: 300ms cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+#roingus:hover {
+    cursor: url(/assets/images/reaching.png) 16 16, grab;
+}
+
+#roingus:active {
+    cursor: url(/assets/images/grab.png) 16 16, grabbing;
+    scale: 1.2;
+}
+
+.main-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.text {
+    display: inline-flex;
+    text-align: center;
+}
+
+.darkmode-label {
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: 200px;
+    border: 1px var(--text-color) solid;
+    border-bottom: none;
+    padding: 5px 0;
+    border-radius: 20px 20px 0 0;
+}

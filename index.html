@@ -1,217 +1,32 @@
-<html>
-    <head>
-        <title>roingus</title>
+<!DOCTYPE html>
+<html lang="en">
 
-        <style>
-            * {
-                box-sizing: border-box;
-                user-select: none;
-            }
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-            body {
-                font-family: 'Comic Sans MS', "Comic Sans", cursive;
-            }
+    <meta property="og:title" content="roingus" />
+    <meta property="og:image" content="/assets/images/roingus.png" />
+    <meta property="og:description" content="click the creature" />
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon-16x16.png">
+    <link rel="manifest" href="/assets/site.webmanifest">
+    <link rel="mask-icon" href="/assets/images/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#E8985E">
+    <meta name="theme-color" content="#E8985E">
+    <title>roingus</title>
+    <link rel="stylesheet" href="style.css">
+</head>
 
-            .c {
-                position: absolute;
-                display: flex;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                justify-content: center;
-                align-items: center;
-                flex-direction: column;
-            }
+<body>
+    <div class="main-container">
+        <p id="time" class="text"></p>
+        <img src="/assets/images/roingus.png" alt="roingus" id="roingus">
+        <p id="count" class="text"></p>
+    </div>
+    <script src="/scripts/index.js"></script>
+</body>
 
-            .roing {
-                cursor: url("/assets/reaching.png") 16 16, grab;
-                transform: scale(1.5);
-                transition: cubic-bezier(0.075, 0.82, 0.165, 1);
-                transition-duration: 300ms;
-                transition-property: transform;
-            }
-
-            .roing.press {
-                cursor: url("/assets/grab.png") 16 16, grabbing;
-                transform: scale(1.2);
-            }
-
-            .time {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                text-align: center;
-                margin-top: 1em;
-                font-size: large;
-            }
-            
-            .count {
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                width: 100%;
-                text-align: center;
-                margin-bottom: 1em;
-                font-size: large;
-            }
-
-            .discord {
-                position: absolute;
-                top: 1em;
-                right: 1em;
-            }
-
-            .discord-img {
-                width: 2.5em;
-                height: 2.5em;
-            }
-
-            .hidden {
-                display: none;
-            }
-
-            @media (prefers-color-scheme: dark) {
-                body {
-                    background-color: #111222;
-                    color: white;
-                }
-            }
-        </style>
-        <meta name="viewport" content="width=device-width, initial-scale=1, ,user-scalable=no">
-        <meta property="og:title" content="roingus" />
-        <meta property="og:image" content="https://roing.us/roingus.png" />
-        <meta property="og:description" content="click the creature" />
-        <link rel="apple-touch-icon" sizes="120x120" href="/assets/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
-        <link rel="manifest" href="/assets/site.webmanifest">
-        <link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#5bbad5">
-        <meta name="msapplication-TileColor" content="#E8985E">
-        <meta name="theme-color" content="#E8985E">
-    </head>
-    <body>
-        <div class="c">
-            <img class="roing" src="assets/roingus.png">
-        </div>
-        <div class="time"></div>
-        <div class="count"></div>
-        <script>
-            const roing = document.querySelector("img.roing");
-
-            const timer = document.querySelector(".time")
-            const counter = document.querySelector(".count")
-            const discord = document.querySelector(".discord")
-
-            const roingNames = ["roingo", "roing", "rangus", "ringo", "rango", "roingOS", "roingy", "ron", "rongy", "roingie", "r", "rangoon", "roingusa"]
-            const vowels = ["a", "e", "i", "o", "u"]
-
-            let pressAudio = new Audio("assets/grab.mp3")
-            let releaseAudio = new Audio("assets/release.mp3")
-            pressAudio.volume = .15
-            releaseAudio.volume = .15
-
-            function roingName() {
-                let rand = Math.random()
-                if (rand < 0.04) {
-                    return roingNames[Math.floor(Math.random() * roingNames.length)]
-                } else if (rand < 0.06) {
-                    return "roing" + vowels[Math.floor(Math.random() * vowels.length)] + vowels[Math.floor(Math.random() * vowels.length)]
-                }
-                return "roingus"
-            }
-
-            let cps = 0
-
-            function count(clicked) {
-                let clicks = localStorage.getItem("clicks")
-                if (clicks == null) {
-                    clicks = 0
-                }
-                if (clicked) {
-                    clicks++
-                    cps++
-                }
-                if (clicks >= 25)
-                    counter.innerText = `you have clicked ${roingName()} ${clicks} times :)`
-                if (clicks > 10000) 
-                    counter.innerText = `you have clicked ${roingName()} many times :)`
-
-                // if (clicks > 50)
-                //     discord.classList.remove("hidden")
-
-                localStorage.setItem("clicks", clicks)
-            }
-
-            count(false)
-
-            let audioCount = 0
-            const maxAudios = 8
-
-            function play(audio) {
-                if (audioCount < maxAudios) {
-                    audioCount++
-                    let tmp = audio.cloneNode();
-                    tmp.addEventListener('ended', e => {audioCount--})
-                    tmp.volume = 0.1
-                    tmp.play()
-                }
-            }
-
-            function press(e) {
-                e.preventDefault()
-                play(pressAudio)
-                roing.classList.add("press")
-                count(true)
-                document.title = roingName()
-            }
-
-            function release(e) {
-                e.preventDefault()
-                play(releaseAudio)
-                roing.classList.remove("press")
-            }
-
-            function observing(real) {
-                let secs = localStorage.getItem("secs")
-            
-                if (secs == null) {
-                    secs = 0
-                }
-                if (document.hasFocus()) {
-                    if (real)
-                        secs++
-                    if (secs >= 90)
-                        timer.innerText = `you have observed ${roingName()} for ${secs} seconds`
-                    if (secs > 60*60) 
-                        timer.innerText = `you have observed ${roingName()} for a long time`
-                    if (secs > 60*60*24) 
-                        timer.innerText = `you have observed ${roingName()} for a really long time`
-                }
-                localStorage.setItem("secs", secs)
-            }
-            
-            observing(false)
-
-            setInterval(() => observing(true), 1000)
-
-            roing.addEventListener("touchstart", press)
-            roing.addEventListener("touchend", release)
-
-            roing.addEventListener("mousedown", press)
-            roing.addEventListener("mouseup", release)
-
-            timer.addEventListener("click", e => {
-                localStorage.removeItem("secs")
-                timer.innerText = ""
-            })
-
-            counter.addEventListener("click", e => {
-                localStorage.removeItem("clicks")
-                counter.innerText = ""
-            })
-            
-        </script>
-    </body>
 </html>
