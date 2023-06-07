@@ -121,7 +121,8 @@ function play(audio) {
 }
 
 // Event listeners
-roingus.addEventListener("pointerdown", () => {
+roingus.addEventListener("pointerdown", (e) => {
+  if (e.button !== 0) return;
   roingusCount += 1;
   setCount();
   play(grabAudio);
