@@ -130,10 +130,8 @@ roingus.addEventListener("pointerdown", (e) => {
 
 document.addEventListener("pointerup", () => {
   if (!clicked) return;
-  setTimeout(() => {
-    play(releaseAudio);
-  }, 50);
 
+  play(releaseAudio);
   clicked = false;
 });
 
@@ -143,15 +141,13 @@ setInterval(() => {
   setTime();
 }, 1000);
 
-// Save roingusCount and time to localStorage when the page is unloaded
+// Save roingusCount and time to localStorage when the page is unloaded and every 10 seconds
 function setStorage() {
   localStorage.setItem("roingusCount", roingusCount.toString());
   localStorage.setItem("time", time.toString());
 }
 
 addEventListener("unload", setStorage);
-
-// Save roingusCount and time to localStorage every 10 seconds
 setInterval(setStorage, 10000);
 
 // Dark mode functionality
@@ -161,17 +157,29 @@ darkmodeCheckbox.addEventListener("change", () => {
   if (darkmodeCheckbox.checked) {
     root.style.setProperty("--background-color", "#000000");
     root.style.setProperty("--text-color", "#FFFFFF");
+
+    // Store "yes" and "no" values in darkMode to make it easier to discern 'false' from 'null' (javascript ew)
+    localStorage.setItem("darkMode", "yes");
   } else {
     root.style.setProperty("--background-color", "#FFFFFF");
     root.style.setProperty("--text-color", "#000000");
+    localStorage.setItem("darkMode", "no");
   }
 });
 
-// Check if the user prefers dark mode
-if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-  darkmode = true;
-  darkmodeCheckbox.checked = true;
+// Determines the value of 'darkmode' based on the stored preference or the preferred color scheme,
+// considering whether the user has visited the site before or not.
+// If 'darkMode' is null (user hasn't visited before), 'darkmode' is set to the preferred color scheme.
+// If 'darkMode' is 'yes' or 'no' (user has visited before), 'darkmode' is set to the stored value.
+const storedDarkMode = localStorage.getItem("darkMode");
+const prefersDarkMode = window.matchMedia(
+  "(prefers-color-scheme: dark)"
+).matches;
+
+if (storedDarkMode === "yes" || storedDarkMode === "no") {
+  darkmode = storedDarkMode === "yes";
+} else {
+  darkmode = prefersDarkMode;
 }
 
-// Store localStorage variable on page load
-localStorage.setItem("visitedSite", "true");
+darkmodeCheckbox.checked = darkmode;
