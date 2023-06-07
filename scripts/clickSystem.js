@@ -15,6 +15,8 @@ const roingNames = [
   "roingusa",
 ];
 
+const vowels = ["a", "e", "i", "o", "u"];
+
 // Retrieve roingusCount and time from localStorage or set them to 0
 let roingusCount = localStorage.getItem("roingusCount") || 0;
 roingusCount = +roingusCount;
@@ -32,7 +34,6 @@ const hasVisitedSite = localStorage.getItem;
 const roingus = document.querySelector("#roingus");
 const timeElm = document.querySelector("#time");
 const countElm = document.querySelector("#count");
-const darkmodeCheckbox = document.querySelector("#darkmode");
 
 // Audio elements
 const grabAudio = new Audio("/assets/audio/grab.mp3");
@@ -48,13 +49,11 @@ let clicked = false;
 // Set count function
 function setCount() {
   clicked = true;
+  d;
 
   if (roingusCount < 25) return;
 
-  let roingus = "roingus";
-  if (Math.random() > 0.92) {
-    roingus = roingNames[Math.floor(Math.random() * roingNames.length)];
-  }
+  let roingus = roingName();
   countElm.innerHTML = `you have clicked ${roingus} ${roingusCount} times :)`;
 }
 
@@ -62,10 +61,7 @@ function setCount() {
 function setTime() {
   if (time < 90) return;
 
-  let roingus = "roingus";
-  if (Math.random() > 0.96) {
-    roingus = roingNames[Math.floor(Math.random() * roingNames.length)];
-  }
+  let roingus = roingName();
   timeElm.innerHTML = `you have observed ${roingus} for ${convertSeconds(
     time
   )}`;
@@ -95,6 +91,21 @@ function convertSeconds(seconds) {
         : result;
     }, "")
     .slice(0, -2);
+}
+
+// random roingus name
+function roingName() {
+  let rand = Math.random();
+  if (rand < 0.04) {
+    return roingNames[Math.floor(Math.random() * roingNames.length)];
+  } else if (rand < 0.06) {
+    return (
+      "roing" +
+      vowels[Math.floor(Math.random() * vowels.length)] +
+      vowels[Math.floor(Math.random() * vowels.length)]
+    );
+  }
+  return "roingus";
 }
 
 // Check roingusCount and time on page load
@@ -149,37 +160,3 @@ function setStorage() {
 
 addEventListener("unload", setStorage);
 setInterval(setStorage, 10000);
-
-// Dark mode functionality
-const root = document.querySelector(":root");
-
-darkmodeCheckbox.addEventListener("change", () => {
-  if (darkmodeCheckbox.checked) {
-    root.style.setProperty("--background-color", "#000000");
-    root.style.setProperty("--text-color", "#FFFFFF");
-
-    // Store "yes" and "no" values in darkMode to make it easier to discern 'false' from 'null' (javascript ew)
-    localStorage.setItem("darkMode", "yes");
-  } else {
-    root.style.setProperty("--background-color", "#FFFFFF");
-    root.style.setProperty("--text-color", "#000000");
-    localStorage.setItem("darkMode", "no");
-  }
-});
-
-// Determines the value of 'darkmode' based on the stored preference or the preferred color scheme,
-// considering whether the user has visited the site before or not.
-// If 'darkMode' is null (user hasn't visited before), 'darkmode' is set to the preferred color scheme.
-// If 'darkMode' is 'yes' or 'no' (user has visited before), 'darkmode' is set to the stored value.
-const storedDarkMode = localStorage.getItem("darkMode");
-const prefersDarkMode = window.matchMedia(
-  "(prefers-color-scheme: dark)"
-).matches;
-
-if (storedDarkMode === "yes" || storedDarkMode === "no") {
-  darkmode = storedDarkMode === "yes";
-} else {
-  darkmode = prefersDarkMode;
-}
-
-darkmodeCheckbox.checked = darkmode;
