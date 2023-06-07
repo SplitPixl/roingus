@@ -48,8 +48,6 @@ let clicked = false;
 
 // Set count function
 function setCount() {
-  clicked = true;
-
   if (roingusCount < 25) return;
 
   let roingus = roingName();
@@ -133,6 +131,7 @@ function play(audio) {
 // Event listeners
 roingus.addEventListener("pointerdown", (e) => {
   if (e.button !== 0) return;
+  clicked = true;
   roingusCount += 1;
   setCount();
   play(grabAudio);
@@ -159,3 +158,18 @@ function setStorage() {
 
 addEventListener("unload", setStorage);
 setInterval(setStorage, 10000);
+
+// On click of click count or time, they'll reset counts back to 0
+countElm.addEventListener("click", () => {
+  roingusCount = 0;
+  setStorage();
+  setCount();
+  countElm.innerHTML = "";
+});
+
+timeElm.addEventListener("click", () => {
+  time = 0;
+  setStorage();
+  setTime();
+  timeElm.innerHTML = "";
+});
