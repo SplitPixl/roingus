@@ -8,6 +8,13 @@
     --text-color: #000000;
 }
 
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background-color: #111222;
+        --text-color: #FFFFFF;
+    }
+}
+
 * {
     -webkit-user-drag: none;
     user-select: none;
@@ -20,13 +27,6 @@ body {
     font-family: "Comic Sans MS";
     background: var(--background-color);
     color: var(--text-color);
-}
-
-@media (prefers-color-scheme: dark) {
-    :root {
-        --background-color: #000000;
-        --text-color: #FFFFFF;
-    }
 }
 
 #roingus {

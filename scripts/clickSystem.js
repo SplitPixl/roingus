@@ -49,7 +49,6 @@ let clicked = false;
 // Set count function
 function setCount() {
   clicked = true;
-  d;
 
   if (roingusCount < 25) return;
 
