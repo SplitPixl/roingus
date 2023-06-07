@@ -129,10 +129,12 @@ roingus.addEventListener("pointerdown", (e) => {
 });
 
 document.addEventListener("pointerup", () => {
-  if (clicked) {
+  if (!clicked) return;
+  setTimeout(() => {
     play(releaseAudio);
-    clicked = false;
-  }
+  }, 50);
+
+  clicked = false;
 });
 
 // Increment time and set time interval
