@@ -51,6 +51,7 @@ function setCount() {
   if (roingusCount === 25) {
     countElm.classList.add("animate-up");
   }
+
   if (roingusCount < 25) return;
 
   let roingus = roingName();
@@ -59,15 +60,16 @@ function setCount() {
 
 // Set time function
 function setTime() {
-  if (time === 2) {
+  if (time === 90) {
     timeElm.classList.add("animate-down");
   }
-  if (time < 2) return;
+  if (time < 90) return;
 
   let roingus = roingName();
   timeElm.innerHTML = `you have observed ${roingus} for <br> ${convertSeconds(
     time
   )}`;
+
 }
 
 // Function to convert seconds to string
