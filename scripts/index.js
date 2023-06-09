@@ -48,6 +48,10 @@ let clicked = false;
 
 // Set count function
 function setCount() {
+  if (roingusCount === 25) {
+    countElm.classList.add("animate-up");
+  }
+
   if (roingusCount < 25) return;
 
   let roingus = roingName();
@@ -56,10 +60,16 @@ function setCount() {
 
 // Set time function
 function setTime() {
+  if (time === 90) {
+    timeElm.classList.add("animate-down");
+  }
   if (time < 90) return;
 
   let roingus = roingName();
-  timeElm.innerHTML = `you have observed ${roingus} for <br> ${convertSeconds(time)}`;
+  timeElm.innerHTML = `you have observed ${roingus} for <br> ${convertSeconds(
+    time
+  )}`;
+
 }
 
 // Function to convert seconds to string
@@ -166,12 +176,14 @@ countElm.addEventListener("click", () => {
   roingusCount = 0;
   setStorage();
   setCount();
-  countElm.innerHTML = "";
+  countElm.innerHTML = "&nbsp;";
+  countElm.classList.remove("animate-up");
 });
 
 timeElm.addEventListener("click", () => {
   time = 0;
   setStorage();
   setTime();
-  timeElm.innerHTML = "";
+  timeElm.innerHTML = "&nbsp;";
+  timeElm.classList.remove("animate-down");
 });
