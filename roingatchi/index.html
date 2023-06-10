@@ -58,6 +58,10 @@
         let singleStepMode = false;
         let sizeOfNextStep = 0;
 
+        function byName(str) {
+            return (e) => e.name === str
+        }
+
         init();
 
         function init() {
@@ -126,9 +130,9 @@
 
                 mixer = new THREE.AnimationMixer(model);
 
-                idleAction = mixer.clipAction(animations[0]);
-                walkAction = mixer.clipAction(animations[2]);
-                runAction = mixer.clipAction(animations[1]);
+                idleAction = mixer.clipAction(animations.find(byName("Idle")));
+                walkAction = mixer.clipAction(animations.find(byName("Walk")));
+                runAction = mixer.clipAction(animations.find(byName("Jump")));
 
                 actions = [idleAction, walkAction, runAction];
 
